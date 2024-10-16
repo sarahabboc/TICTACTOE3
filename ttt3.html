@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC TAC TOE</title>
+    <style>
+        #board-3x3 {
+            display: flex;
+            flex-wrap: wrap;
+            width: 300px; 
+            margin: 0 auto;
+        }
+        .square {
+            width: 90px;
+            height: 90px; 
+            background-color: violet; 
+            margin: 5px;
+            text-align: center;
+            font-size: 95px;
+            font-weight: bold;
+            line-height: 90px;
+        }
+        .square:hover {
+            background-color: lightpink;
+        }
+        #text-box {
+            text-align: center;
+            border: 2px solid #000;
+            width: 300px;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 25px;
+        }
+        h1 {
+            text-align: center;
+            color: red;
+            font-family: Impact;
+        }
+        #buttonContainer {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        button {
+            margin: 20px auto;
+            font-size: 20px;
+            background-color: #808080;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>TIC TAC TOE</h1>
+    <div id="buttonContainer">
+        <button id="startButton">Start Game</button>
+    </div>
+    
+    <div id="text-box">X's turn!</div>
+    <div id="board-3x3">
+        <script>
+            const NUM_SQUARES = 9;
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                const id = "sq" + i;
+                document.write("<div class='square' id='" + id + "'></div>");
+            }
+        </script>
+    </div>
+    <div id="text-box">Waiting for Winner...</div>
+    <script>
+        // Get all the square elements and the text box
+        const squares = document.querySelectorAll('.square');
+        const textBox = document.getElementById('text-box'); 
+        let currentPlayer = true;
+
+        // Function to update the text box based on the current player
+        function updateTextBox() {
+            textBox.textContent = currentPlayer ? "X's turn!" : "O's turn!";
+        }
+
+        // Set initial text
+        updateTextBox();
+
+        // Add click event listener to each square
+        squares.forEach((square, index) => {
+            square.addEventListener('click', function() {
+                // Check if the square is already occupied
+                if (this.textContent === '') {
+                    // Place 'X' or 'O' based on the current player
+                    this.textContent = currentPlayer ? 'X' : 'O';
+                    
+                    // Show a popup with the index of the square
+                    alert(`You clicked on square number: ${index}`);
+                    
+                    // Switch player
+                    currentPlayer = !currentPlayer;
+
+                    // Update the text box for the next turn
+                    updateTextBox();
+                } else {
+                    alert('Square already occupied!'); // Prevent clicking on occupied squares
+                }
+            });
+        });
+
+        // Function to randomly choose starting player and update text box
+        function startingPlayer() {
+            currentPlayer = Math.random() < 0.5;
+            updateTextBox(); // Update text box to show current player's turn
+        }
+
+        // Start game function to clear squares and reset the game state
+        function startGame() {
+            squares.forEach(square => {
+                square.innerText = ""; // Clear the text in each square
+            });
+            startingPlayer(); // Reset the starting player
+        }
+        
+        document.getElementById("startButton").onclick = startGame; 
+
+        // Initialize the game
+        startGame();
+    </script>
+</body>
+</html>
